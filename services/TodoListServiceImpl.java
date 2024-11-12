@@ -4,35 +4,36 @@ import entities.TodoList;
 import repositories.TodoListRepository;
 
 public class TodoListServiceImpl implements TodoListService {
-    private TodoListRepository todoListRepository;
+    private final TodoListRepository todoListRepository;
 
-    public TodoListServiceImpl(TodoListRepository todoListRepository) {
+    public TodoListServiceImpl(TodoListRepository todoListRepository){
         this.todoListRepository = todoListRepository;
     }
 
     @Override
     public TodoList[] getTodoList() {
-        return todoListRepository.getAll();
+        return new TodoList[0];
     }
 
     @Override
-    public void addTodoList(final String todo) {
-        if (todo.isBlank() || todo.isEmpty()) {
+    public void addTodoList(String todo) {
+        if (todo.isEmpty() || todo.isBlank()) {
             System.out.println("Masukkan todo dengan benar");
             return;
         }
+
         TodoList todoList = new TodoList();
         todoList.setTodo(todo);
         todoListRepository.add(todoList);
     }
 
     @Override
-    public Boolean removeTodoList(final Integer number) {
+    public Boolean removeTodoList(Integer number) {
         return todoListRepository.remove(number);
     }
 
     @Override
-    public Boolean editTodoList(final Integer number, String todo) {
+    public Boolean editTodoList(Integer number, String todo) {
         TodoList todoList = new TodoList();
         todoList.setTodo(todo);
         todoList.setId(number);
