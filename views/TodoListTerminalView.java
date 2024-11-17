@@ -4,31 +4,21 @@ import entities.TodoList;
 import java.util.Scanner;
 import services.TodoListService;
 
-public class TodoListTerminalView implements TodoListView{
+public class TodoListTerminalView implements TodoListView {
     public static Scanner scanner = new Scanner(System.in);
     private final TodoListService todoListService;
 
-    public TodoListTerminalView(final TodoListService todoListService){
+    public TodoListTerminalView(TodoListService todoListService) {
         this.todoListService = todoListService;
     }
 
-    public static String input(String info) {
+    public String input(String info) {
         System.out.print(info + " : ");
         var data = scanner.nextLine();
         return data;
     }
 
-    public  void showTodoList() {
-        System.out.println("TODO LIST");
-        TodoList[] todos = todoListService.getTodoList();
-        for (var i = 0; i < todos.length; i++) {
-            var todo = todos[i];
-            if (todo != null) {
-                System.out.println((i + 1) + ". " + todo.getTodo());
-            }
-        }
-    }
-    public  void showMainMenu() {
+    public void showMainMenu() {
         // infinite loop so the program will always run
         boolean isRunning = true;
         while (isRunning) {
@@ -60,16 +50,6 @@ public class TodoListTerminalView implements TodoListView{
         }
     }
 
-    public void showMenuAddTodoList() {
-        System.out.println("MENAMBAH TODO LIST");
-        var todo = input("Todo (x jika batal)");
-        if (todo.equals("x")) {
-            // batal
-        } else {
-            todoListService.addTodoList(todo);
-        }
-    }
-
     public void showMenuRemoveTodoList() {
         System.out.println("MENGHAPUS TODO LIST");
         var number = input("Nomor yang dihapus (x jika batal)");
@@ -83,7 +63,17 @@ public class TodoListTerminalView implements TodoListView{
         }
     }
 
-    public  void showMenuEditTodoList() {
+    public void showMenuAddTodoList() {
+        System.out.println("MENAMBAH TODO LIST");
+        var todo = input("Todo (x jika batal)");
+        if (todo.equals("x")) {
+            // batal
+        } else {
+            todoListService.addTodoList(todo);
+        }
+    }
+
+    public void showMenuEditTodoList() {
         System.out.println("MENGEDIT TODO LIST");
         String selectedTodo = input("Masukkan nomor todo (x jika batal)");
         if (selectedTodo.equals("x")) {
@@ -101,9 +91,19 @@ public class TodoListTerminalView implements TodoListView{
         }
     }
 
+    public void showTodoList() {
+        System.out.println("TODO LIST");
+        TodoList[] todoList = todoListService.getTodoList();
+        for (var i = 0; i < todoList.length; i++) {
+            var todo = todoList[i];
+            if (todo != null) {
+                System.out.println((i + 1) + ". " + todo.getTodo());
+            }
+        }
+    }
+
     @Override
     public void run() {
         showMainMenu();
-
     }
 }
